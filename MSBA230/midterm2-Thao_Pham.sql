@@ -57,8 +57,7 @@ GO
 
 /* Question 2
 Create a scalar-valued function named fnM2 that takes an AccountNo as input and returns the total unpaid balance for that account.
-      Use the function in a SELECT query to retrieve the Account Descriptions of the top 3 accounts with the highest unpaid balances.
-
+Use the function in a SELECT query to retrieve the Account Descriptions of the top 3 accounts with the highest unpaid balances.
 */
 
 /* Dropping the function if exists */
