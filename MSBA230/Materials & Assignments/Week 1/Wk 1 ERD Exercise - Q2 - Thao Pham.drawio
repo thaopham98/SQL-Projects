@@ -1,0 +1,48 @@
+<mxfile host="app.diagrams.net" agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36" version="24.7.10">
+  <diagram id="R2lEEEUBdFMjLlhIrx00" name="Page-1">
+    <mxGraphModel grid="0" page="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0" extFonts="Permanent Marker^https://fonts.googleapis.com/css?family=Permanent+Marker">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="uiXZk0EzCMbodaIH5dkc-11" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;fontSize=19;endArrow=ERmany;endFill=0;startArrow=ERone;startFill=0;" edge="1" parent="1" source="uiXZk0EzCMbodaIH5dkc-1" target="uiXZk0EzCMbodaIH5dkc-4">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="uiXZk0EzCMbodaIH5dkc-1" value="TransportationEvents" style="swimlane;whiteSpace=wrap;html=1;fontSize=19;" vertex="1" parent="1">
+          <mxGeometry x="510" y="320" width="210" height="130" as="geometry" />
+        </mxCell>
+        <mxCell id="uiXZk0EzCMbodaIH5dkc-10" value="scheduleNumber (PK)&lt;div style=&quot;font-size: 19px;&quot;&gt;type&lt;/div&gt;&lt;div style=&quot;font-size: 19px;&quot;&gt;deliveryRoute&lt;/div&gt;" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontSize=19;" vertex="1" parent="uiXZk0EzCMbodaIH5dkc-1">
+          <mxGeometry x="-2.5" y="35" width="210" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="uiXZk0EzCMbodaIH5dkc-2" value="ShippedItems" style="swimlane;whiteSpace=wrap;html=1;fontSize=19;" vertex="1" parent="1">
+          <mxGeometry x="130" y="580" width="200" height="200" as="geometry" />
+        </mxCell>
+        <mxCell id="uiXZk0EzCMbodaIH5dkc-8" value="itemNum (PK)&lt;div style=&quot;font-size: 19px;&quot;&gt;weight&lt;/div&gt;&lt;div style=&quot;font-size: 19px;&quot;&gt;dimensions&amp;nbsp;&lt;/div&gt;&lt;div style=&quot;font-size: 19px;&quot;&gt;insuranceAmount&lt;/div&gt;&lt;div style=&quot;font-size: 19px;&quot;&gt;destination&lt;/div&gt;&lt;div style=&quot;font-size: 19px;&quot;&gt;finalDeliveryDate&lt;/div&gt;&lt;div style=&quot;font-size: 19px;&quot;&gt;retailerCenterID (FK)&lt;/div&gt;" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontSize=19;" vertex="1" parent="uiXZk0EzCMbodaIH5dkc-2">
+          <mxGeometry y="30" width="200" height="170" as="geometry" />
+        </mxCell>
+        <mxCell id="uiXZk0EzCMbodaIH5dkc-9" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;endArrow=ERmany;endFill=0;startArrow=ERone;startFill=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;fontSize=19;" edge="1" parent="1" source="uiXZk0EzCMbodaIH5dkc-3" target="uiXZk0EzCMbodaIH5dkc-2">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="230" y="470" as="sourcePoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="uiXZk0EzCMbodaIH5dkc-3" value="RetailCenters" style="swimlane;whiteSpace=wrap;html=1;fontSize=19;" vertex="1" parent="1">
+          <mxGeometry x="130" y="320" width="200" height="130" as="geometry" />
+        </mxCell>
+        <mxCell id="uiXZk0EzCMbodaIH5dkc-7" value="retailCenterID (PK)&lt;div style=&quot;font-size: 19px;&quot;&gt;address&lt;/div&gt;&lt;div style=&quot;font-size: 19px;&quot;&gt;type&lt;/div&gt;" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontSize=19;" vertex="1" parent="uiXZk0EzCMbodaIH5dkc-3">
+          <mxGeometry x="10" y="35" width="180" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="uiXZk0EzCMbodaIH5dkc-4" value="ItemTransportDetail" style="swimlane;whiteSpace=wrap;html=1;fontSize=19;" vertex="1" parent="1">
+          <mxGeometry x="510" y="580" width="210" height="140" as="geometry" />
+        </mxCell>
+        <mxCell id="uiXZk0EzCMbodaIH5dkc-13" value="itemNum (FK)&lt;div&gt;scheduleNumber (FK)&lt;/div&gt;" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontSize=19;" vertex="1" parent="uiXZk0EzCMbodaIH5dkc-4">
+          <mxGeometry x="-2.5" y="50" width="210" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="uiXZk0EzCMbodaIH5dkc-12" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=ERmany;endFill=0;startArrow=ERone;startFill=0;exitX=0.995;exitY=0.118;exitDx=0;exitDy=0;exitPerimeter=0;" edge="1" parent="1" source="uiXZk0EzCMbodaIH5dkc-8">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="510" y="630" as="targetPoint" />
+            <mxPoint x="333.97" y="631.93" as="sourcePoint" />
+          </mxGeometry>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

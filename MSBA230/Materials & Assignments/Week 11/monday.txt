@@ -1,0 +1,124 @@
+/*  a) Write the queries to create the following tables*/
+/* MUST IN THE master db*/
+USE master;
+GO
+
+DROP DATABASE IF EXISTS TransactionDB;
+
+CREATE DATABASE TransactionDB;
+GO
+
+USE TransactionDB; 
+GO
+
+/* Creating table(s) after created the db */
+CREATE TABLE Accounts(
+    AccountNumber int PRIMARY KEY IDENTITY(1,1),
+    CurrentBalance money
+)
+
+CREATE TABLE Transactions(
+    TransactionID int PRIMARY KEY IDENTITY(1,1),
+    AccountNumber int FOREIGN Key REFERENCES Accounts(AccountNumber), -- since this key also belong in another table which connected with Transactions, we have the REFERENCE table(column)
+    TranType varchar(20) CHECK (TranType IN ('Withdrawal', 'Deposit')), -- the CHECK is similar to the IF clause
+    TranLoc varchar(20) CHECK (TranLoc IN ('ATM', 'Counter')),
+    TranAmount money CHECK (TranAmount > 0),
+    TranDateTime DATETIME
+)
+
+/* INSERT values INTO tables */
+INSERT INTO Accounts
+VALUES (1000), (500),
+        (2500)
+SELECT * FROM Accounts;
+
+INSERT INTO Transactions
+VALUES (1, 'Deposit', 'ATM', 200, GETDATE()) -- values of AccountNumber, TranType, TranLoc, TranAmount, TranDateTime
+SELECT * FROM Transactions;
+
+
+/* b) Create a SP to add a new transaction record */
+GO
+CREATE PROC AddTransaction 
+    @AccountNumber int,
+    @TranType varchar(20),
+    @TranLoc varchar(20) ,
+    @TranAmount money
+AS 
+    /* Checking if an account number exists */
+    IF @AccountNumber NOT IN (SELECT AccountNumber FROM Accounts)
+        THROW 5100, 'The account numer @AccountNumner does NOT exist.', 1; -- https://learn.microsoft.com/en-us/sql/t-sql/language-elements/throw-transact-sql?view=sql-server-ver16
+
+    /* Checking the transaction type */
+    IF @TranType NOT IN ('Deposit','Withdrawal')
+        THROW 5200, 'Trasaction type not accepted', 2
+    
+    /* Checking the transaction location */
+    IF @TranLoc NOT IN ('ATM', 'Counter')
+        THROW 50003, 'Transaction Location not accepted' , 2
+
+    /* Checking the amount */
+    IF @TranAmount <=0
+        THROW 50004, 'Amount needs to be greater than 0' , 2
+
+    /* Adding a new transaction */
+    INSERT INTO Transactions
+    VALUES (@AccountNumber,@TranType,@TranLoc,@TranAmount, GETDATE());
+
+/* Calling the SP */
+EXEC AddTransaction 1, 'Deposit','ATM', 200
+
+/*  HOMEWORK */
+GO
+-----
+--Alter the procedure to update the accounts table as well depending if the transaction is
+ALTER PROCEDURE AddTransaction
+    @AccountNumber int,
+    @TranType varchar(20),
+    @TranLoc varchar(20) ,
+    @TranAmount money
+AS
+    /* Checking if an account number exists */
+    IF @AccountNumber NOT IN (SELECT AccountNumber FROM Accounts)
+        THROW 5100, 'The account numer @AccountNumner does NOT exist.', 1; -- https://learn.microsoft.com/en-us/sql/t-sql/language-elements/throw-transact-sql?view=sql-server-ver16
+
+    /* Checking the transaction type */
+    IF @TranType NOT IN ('Deposit','Withdrawal')
+        THROW 5200, 'Trasaction type not accepted', 2
+
+    /* Checking the transaction location */
+    IF @TranLoc NOT IN ('ATM', 'Counter')
+        THROW 50003, 'Transaction Location not accepted' , 2
+
+    /* Checking the amount */
+    IF @TranAmount <=0
+        THROW 50004, 'Amount needs to be greater than 0' , 2
+
+
+    IF @TranType = 'Deposit'
+        BEGIN
+            /* Adding a new transaction */
+            INSERT INTO Transactions
+            VALUES (@AccountNumber,@TranType,@TranLoc,@TranAmount, GETDATE())
+        END
+    ELSE --In withdrawal cases you need to make sure that there are enough funds available
+        BEGIN 
+            IF (SELECT TranAmount FROM Transactions WHERE @AccountNumber=AccountNumber) < @TranAmount
+                    THROW 50005, 'The fund is not enough' , 2
+
+            -- INSERT INTO Transactions
+            -- VALUES (@AccountNumber,@TranType,@TranLoc, @TranAmount, GETDATE())
+            UPDATE Transactions
+            SET AccountNumber=@AccountNumber,
+                TranType=@TranType,
+                TranLoc=@TranLoc,
+                TranAmount=TranAmount - @TranAmount, 
+                TranDateTime=GETDATE()
+        END
+
+EXEC AddTransaction 2, 'Deposit', 'ATM', 400
+EXEC AddTransaction 5, 'Deposit', 1000
+EXEC AddTransaction 2, 'Withdrawal', 'ATM',500
+
+delete from Transactions where AccountNumber=1
+SELECT * FROM Transactions;

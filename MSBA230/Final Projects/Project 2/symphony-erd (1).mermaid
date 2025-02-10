@@ -1,0 +1,18 @@
+erDiagram
+    CONCERT {
+        int Concert_ID PK
+        string Series_Type
+    }
+
+    MUSIC_PIECE {
+        int Piece_ID PK
+        int Concert_ID FK
+    }
+
+    TICKET {
+        int Ticket_ID PK
+        int Concert_ID FK
+    }
+
+    CONCERT ||--o{ MUSIC_PIECE : "contains"
+    CONCERT ||--o{ TICKET : "generates"

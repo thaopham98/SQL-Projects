@@ -1,0 +1,32 @@
+erDiagram
+    CONCERT {
+        int Concert_ID PK
+        string Series_Type
+        date Concert_Date
+        time Concert_Time
+        string Program_Name
+        decimal Single_Tix_Revenue
+        int No_Single_Tix
+        decimal Sub_Tix_Revenue
+        int No_Subs
+        decimal Total_Revenue
+        int Total_Tix
+    }
+
+    MUSIC_PIECE {
+        int Piece_ID PK
+        string Composer_Name
+        string Piece_Name
+        int Concert_ID FK
+        date Date_Performed
+    }
+
+    TICKET {
+        int Ticket_ID PK
+        string Ticket_Type
+        decimal Ticket_Price
+        int Concert_ID FK
+    }
+
+    CONCERT ||--o{ MUSIC_PIECE : "contains"
+    CONCERT ||--o{ TICKET : "generates"
