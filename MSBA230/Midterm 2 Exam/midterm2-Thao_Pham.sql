@@ -81,9 +81,9 @@ SELECT
     DISTINCT TOP 3 
     li.AccountNO, 
     -- AccountDescription, 
-    dbo.fnM2(li.AccountNo) 'Unpaid Amount' -- the returns amount will be around up to the 
+    dbo.fnM2(li.AccountNo) 'Unpaid Amount' -- the returns amount will be around up since the function fnM2 only returns INT
 FROM InvoiceLineItems li 
-JOIN [dbo].[GLAccounts] gl on li.AccountNo=gl.AccountNo
+JOIN [dbo].[GLAccounts] gl ON li.AccountNo=gl.AccountNo
 ORDER BY 'Unpaid Amount' DESC;
 
 
@@ -93,7 +93,7 @@ SELECT
     DISTINCT TOP 3 
     -- li.AccountNO, 
     AccountDescription, 
-    dbo.fnM2(li.AccountNo) 'Unpaid Amount' -- the returns amount will be around up to the 
+    dbo.fnM2(li.AccountNo) 'Unpaid Amount' -- the returns amount will be around up since the function fnM2 only returns INT
 FROM InvoiceLineItems li 
 JOIN [dbo].[GLAccounts] gl ON li.AccountNo=gl.AccountNo
 ORDER BY 'Unpaid Amount' DESC;
