@@ -57,7 +57,7 @@ Create a scalar-valued function named fnM2 that takes an AccountNo as input and 
 DROP FUNCTION IF EXISTS fnM2; -- Drop function fnM2 if it exists
 GO
 
-CREATE or ALTER function fnM2(@AccountNo INT) -- Create or Alter function fnM2 with an INTEGER input
+CREATE OR ALTER function fnM2(@AccountNo INT) -- Create or Alter function fnM2 with an INTEGER input
 RETURNS INT -- returning an int
 BEGIN
     RETURN (
@@ -78,7 +78,7 @@ GO
 
 /* Calling the func fnM2 and display AccountNO */
 SELECT 
-    DISTINCT top 3 
+    DISTINCT TOP 3 
     li.AccountNO, 
     -- AccountDescription, 
     dbo.fnM2(li.AccountNo) 'Unpaid Amount' -- the returns amount will be around up to the 
@@ -90,7 +90,7 @@ ORDER BY 'Unpaid Amount' DESC;
 GO
 /* Calling the func fnM2 and display AccountDescription */
 SELECT 
-    DISTINCT top 3 
+    DISTINCT TOP 3 
     -- li.AccountNO, 
     AccountDescription, 
     dbo.fnM2(li.AccountNo) 'Unpaid Amount' -- the returns amount will be around up to the 
