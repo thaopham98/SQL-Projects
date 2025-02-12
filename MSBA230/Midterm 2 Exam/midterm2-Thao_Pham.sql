@@ -11,7 +11,7 @@ DROP proc IF EXISTS spM1; -- Drop procedure spM1 if it exists
 GO
 
 CREATE OR ALTER proc spM1 -- Create or Alter procedure spM1
-    @VendorID INT 
+    @VendorID INT -- with an INTEGER input 
 AS 
 
     /* error message if VendorID NOT exists on both Vendors and Invoices tables*/
@@ -57,7 +57,7 @@ Create a scalar-valued function named fnM2 that takes an AccountNo as input and 
 DROP FUNCTION IF EXISTS fnM2; -- Drop function fnM2 if it exists
 GO
 
-CREATE or ALTER function fnM2(@AccountNo INT) -- Create or Alter function fnM2 with input
+CREATE or ALTER function fnM2(@AccountNo INT) -- Create or Alter function fnM2 with an INTEGER input
 RETURNS INT -- returning an int
 BEGIN
     RETURN (
