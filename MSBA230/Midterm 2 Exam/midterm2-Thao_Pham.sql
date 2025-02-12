@@ -1,29 +1,29 @@
-/*
+/* Question 1:
 Create a stored procedure called spM1 that accepts a VendorID as input and returns all invoices for that vendor. 
 Additionally, include a message specifying the total number of invoices as well as the total amount of invoice for that vendor. 
 If the vendor doesn’t have any invoices, display an appropriate message. If the vendor ID does not exist, raise an error.
      Exec for vendorID of 1, 95, 125
 */
-USE AP;
+USE AP; -- Set the database
 GO
 
-DROP proc IF EXISTS spM1;
+DROP proc IF EXISTS spM1; -- Drop procedure spM1 if it exists
 GO
 
-CREATE OR alter proc spM1
+CREATE OR ALTER proc spM1 -- Create or Alter procedure spM1
     @VendorID INT 
 AS 
 
-    /* error message if VendorID NOT exists */
-    IF @VendorID NOT IN (select VendorID from Vendors )
+    /* error message if VendorID NOT exists on both Vendors and Invoices tables*/
+    IF @VendorID NOT IN (select VendorID from Vendors ) -- check if VendorID exists on Vendors table
         THROw 50002, 'The VendorID does NOT exist in the Vendors table.', 1
-    IF @VendorID NOT IN (select VendorID from Invoices)
+    IF @VendorID NOT IN (select VendorID from Invoices) -- check if VendorID exists on Invoices table
         THROW 50001, 'The VendorID does NOT exist in the Invoices table.', 1
 
-    /* returns all invoices for that vendor */
-    select i.* 
-    from Invoices i 
-    JOIN Vendors v on i.VendorID=v.VendorID
+    /* returns all invoices for the VendorID */
+    SELECT i.* 
+    FROM Invoices i 
+    JOIN Vendors v ON i.VendorID=v.VendorID
     WHERE v.VendorID = @VendorID;
 
     /* declare variables for a message */
@@ -32,8 +32,8 @@ AS
     ;
 
     /* SELECT for Message */
-    select @totalInvoices = count(*) from Invoices where VendorID=@VendorID ;
-    select @totalInvoiceAmount = SUM(InvoiceTotal) from Invoices where VendorID=@VendorID;
+    SELECT @totalInvoices = COUNT(*) FROM Invoices WHERE VendorID=@VendorID ;
+    SELECT @totalInvoiceAmount = SUM(InvoiceTotal) FROM Invoices WHERE VendorID=@VendorID;
     
 
     /* Display Message */
@@ -41,6 +41,7 @@ AS
 
 GO
 
+/* EXECUTIONS */
 EXEC spM1 1;
 EXEC spM1 95;
 EXEC spM1 125;
@@ -48,26 +49,27 @@ EXEC spM1 125;
 EXEC spM1 122;
 GO
 
-/*
+/* Question 2
 Create a scalar-valued function named fnM2 that takes an AccountNo as input and returns the total unpaid balance for that account.
       Use the function in a SELECT query to retrieve the Account Descriptions of the top 3 accounts with the highest unpaid balances.
-
 */
-DROP FUNCTION IF EXISTS fnM2;
+     
+DROP FUNCTION IF EXISTS fnM2; -- Drop function fnM2 if it exists
 GO
-CREATE or ALTER function fnM2(@AccountNo INT)
-RETURNS INT 
+
+CREATE or ALTER function fnM2(@AccountNo INT) -- Create or Alter function fnM2 with input
+RETURNS INT -- returning an int
 BEGIN
     RETURN (
 
-        select 
-            sum(InvoiceTotal - PaymentTotal - CreditTotal) 'Unpaid Amount'
-        from Invoices i 
-        join InvoiceLineItems li 
-            on i.InvoiceID=li.InvoiceID
-        where AccountNo = @AccountNo
-        group by AccountNo
-        having sum(InvoiceTotal - PaymentTotal - CreditTotal)> 0
+        SELECT 
+            SUM(InvoiceTotal - PaymentTotal - CreditTotal) 'Unpaid Amount'
+        FROM Invoices i 
+        JOIN InvoiceLineItems li 
+            ON i.InvoiceID=li.InvoiceID
+        WHERE AccountNo = @AccountNo
+        GROUP BY AccountNo
+        HAVING SUM(InvoiceTotal - PaymentTotal - CreditTotal)> 0
         
     )
 END
@@ -75,26 +77,26 @@ END
 GO
 
 /* Calling the func fnM2 and display AccountNO */
-select 
-    distinct top 3 
+SELECT 
+    DISTINCT top 3 
     li.AccountNO, 
     -- AccountDescription, 
     dbo.fnM2(li.AccountNo) 'Unpaid Amount' -- the returns amount will be around up to the 
-from InvoiceLineItems li 
-join [dbo].[GLAccounts] gl on li.AccountNo=gl.AccountNo
-order by 'Unpaid Amount' DESC;
+FROM InvoiceLineItems li 
+JOIN [dbo].[GLAccounts] gl on li.AccountNo=gl.AccountNo
+ORDER BY 'Unpaid Amount' DESC;
 
 
 GO
 /* Calling the func fnM2 and display AccountDescription */
-select 
-    distinct top 3 
+SELECT 
+    DISTINCT top 3 
     -- li.AccountNO, 
     AccountDescription, 
     dbo.fnM2(li.AccountNo) 'Unpaid Amount' -- the returns amount will be around up to the 
-from InvoiceLineItems li 
-join [dbo].[GLAccounts] gl on li.AccountNo=gl.AccountNo
-order by 'Unpaid Amount' DESC;
+FROM InvoiceLineItems li 
+JOIN [dbo].[GLAccounts] gl ON li.AccountNo=gl.AccountNo
+ORDER BY 'Unpaid Amount' DESC;
 
 
 ---------------------------------------- TESTING QUERIES --------------------------------------------
@@ -122,7 +124,7 @@ order by 'Unpaid Amount' DESC;
 -- group by AccountNo
 -- having sum(InvoiceTotal - PaymentTotal - CreditTotal)> 0;
 
-select * from Invoices where VendorID = 122
+-- select * from Invoices where VendorID = 122
 
 -- SELECT sum(InvoiceTotal)
 -- FROM Invoices 
