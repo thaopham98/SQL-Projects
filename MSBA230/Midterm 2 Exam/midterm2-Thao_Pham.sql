@@ -21,12 +21,12 @@ AS
         THROW 50001, 'The VendorID does NOT exist in the Invoices table.', 1
 
     /* returns all invoices for the VendorID */
-    SELECT i.* 
-    FROM Invoices i 
-    JOIN Vendors v ON i.VendorID=v.VendorID
-    WHERE v.VendorID = @VendorID;
+    SELECT i.* -- selecting all the columns 
+    FROM Invoices i -- on the Invoice table, the alias of Invoice table is `i`
+    JOIN Vendors v ON i.VendorID=v.VendorID -- join with Vendors table, `v`, via the `VendorID` columns of both tables.
+    WHERE v.VendorID = @VendorID; -- with the condition is the `VendorID` of Vendor table is matched with the input int @VendorID
 
-    /* declare variables for a message */
+    /* declare/define variables for a message */
     DECLARE @totalInvoices INT, -- the total number of invoices. count()
         @totalInvoiceAmount INT -- the total amount of invoice for that vendor. sum()
     ;
@@ -58,7 +58,7 @@ DROP FUNCTION IF EXISTS fnM2; -- Drop function fnM2 if it exists
 GO
 
 CREATE OR ALTER function fnM2(@AccountNo INT) -- Create or Alter function fnM2 with an INTEGER input
-RETURNS INT -- returning an int
+RETURNS INT -- returning an INTEGER
 BEGIN
     RETURN (
 
@@ -69,7 +69,7 @@ BEGIN
             ON i.InvoiceID=li.InvoiceID
         WHERE AccountNo = @AccountNo
         GROUP BY AccountNo
-        HAVING SUM(InvoiceTotal - PaymentTotal - CreditTotal)> 0
+        HAVING SUM(InvoiceTotal - PaymentTotal - CreditTotal) > 0
         
     )
 END
@@ -113,7 +113,9 @@ ORDER BY 'Unpaid Amount' DESC;
 -- select top 5 * 
 -- from InvoiceLineItems;
 
+
 -- select distinct AccountNo from InvoiceLineItems;
+
 
 -- select AccountNo,
 --     sum(InvoiceTotal - PaymentTotal - CreditTotal) Unpaid
@@ -124,7 +126,9 @@ ORDER BY 'Unpaid Amount' DESC;
 -- group by AccountNo
 -- having sum(InvoiceTotal - PaymentTotal - CreditTotal)> 0;
 
--- select * from Invoices where VendorID = 122
+
+-- select * from Invoices where VendorID = 122;
+
 
 -- SELECT sum(InvoiceTotal)
 -- FROM Invoices 

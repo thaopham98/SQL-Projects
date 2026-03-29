@@ -1,5 +1,5 @@
 # SQL-Projects
- This is where I stored most of my SQL related projects/codes.
+This is where I stored most of my SQL related projects/codes.
 
 ## Handling `.DS_Store` file.<br>
 
