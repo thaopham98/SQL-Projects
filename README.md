@@ -1,13 +1,22 @@
 # SQL-Projects
 This is where I stored most of my SQL related projects/codes.
 
+## Setup
+
+### MacOS
+- Installation:
+    - Docker
+    - Azure Data Studio
+### Windows
+- Installation:
+    - M
+
 ## Handling `.DS_Store` file.<br>
 
 Since I'm using MacOS, there are hidden files, `.DS_Store`, created by default to store information about the folder, such as its icon, position, and other metadata. These files are specific to macOS and are not necessary for other operating systems. Generally, **it's not recommended** to commit `.DS_Store` files to GitHub.<br>
 
 ### Handling by ignore `.DS_Store` files with CLI
 1. cd to the root of the repository.
-2. Create a `.gitignore` file at the root of the repository, `SQL-Projects`.<br>
 `touch .gitignore`
 3. Opening the `.gitignore` file.<br>
 `nano .gitignore`
