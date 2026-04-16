@@ -1,0 +1,1 @@
+SELECT name FROM sys.databases ORDER BY name -- display all the databases in the server
