@@ -1,15 +1,18 @@
+-- USE MurachCollege;
+-- GO
+
 -- SELECT * FROM Instructors;
--- SELECT * from Students
--- select * from Courses;
+-- SELECT * FROM Students
+-- SELECT * FROM Courses;
 -- SELECT * FROM StudentCourses;
 
 /* CHAPTER 5 */
 /*  1   */
--- select 
+-- SELECT 
 --     COUNT(*) AS [Number of Instructors],
 --     AVG(AnnualSalary) AS [The Average Annual Salary]
--- from Instructors
--- Where [Status] = 'F';
+-- FROM Instructors
+-- WHERE [Status] = 'F';
 
 /*  2   */
 -- SELECT
@@ -20,17 +23,18 @@
 -- JOIN Departments AS d on i.DepartmentID=d.DepartmentID
 -- GROUP BY 
 --     DepartmentName
--- ORDER BY [Number of Instructors] DESC
+-- ORDER BY [Number of Instructors] DESC;
 
 /*  3   */
 -- SELECT 
 --     i.FirstName + ' ' + i.LastName AS [Full Name],
 --     COUNT(c.CourseID) AS [Number of Courses],
 --     SUM(c.CourseUnits) AS [Total Course Units]
--- from Instructors as i 
--- join Courses as c on c.InstructorID=i.InstructorID
--- GROUP by i.FirstName, i.LastName
--- ORDER BY [Course Units] DESC
+-- FROM Instructors as i 
+-- JOIN Courses as c on c.InstructorID=i.InstructorID
+-- -- WHERE i.FirstName + ' ' + i.LastName IS NOT NULL -- comment out if you wan to remove the null values in Full Name
+-- GROUP BY i.FirstName, i.LastName
+-- ORDER BY [Total Course Units] DESC;
 
 /*  4   */
 -- SELECT
@@ -79,10 +83,13 @@
 -- SELECT 
 --     LastName +', '+FirstName AS [Full Name],
 --     COUNT(c.CourseNumber) AS [Number of Courses]
--- from Instructors as i 
--- JOIN Courses as c on c.InstructorID = c.InstructorID
--- where STATUS='P'
--- group by 
+-- FROM Instructors AS i 
+-- JOIN Courses AS c ON c.InstructorID = c.InstructorID
+-- WHERE 
+--     -- LastName +', '+FirstName IS NOT NULL
+--     -- AND 
+--     STATUS = 'P'
+-- GROUP BY 
 --     i.LastName, 
 --     i.FirstName;
 
@@ -90,39 +97,42 @@
 /* CHAPTER 6 */
 
 /*  1   */
--- select distinct LastName , FirstName
--- from Instructors i 
--- WHERE InstructorID IN 
---     (
---         select c.InstructorID
---         from Courses c
+-- SELECT distinct LastName , FirstName, InstructorID
+-- FROM Instructors i 
+-- WHERE InstructorID IN
+--     ( 
+--         SELECT c.InstructorID
+--         FROM Courses c
 --     )
--- Order by LastName, FirstName;
+-- ORDER BY LastName, FirstName;
+
 
 /*  2   */
 -- SELECT 
 --     LastName,
 --     FirstName, 
 --     AnnualSalary
--- from Instructors
--- where AnnualSalary >
---     (select avg(AnnualSalary)
---     from Instructors)
--- Order by AnnualSalary DESC;
+-- FROM Instructors
+-- WHERE AnnualSalary >
+--     (
+--         SELECT avg(AnnualSalary)
+--         FROM Instructors
+--     )
+-- ORDER BY AnnualSalary DESC;
 
 
 /*  3   */
--- select 
+-- SELECT 
 --     LastName,
 --     FirstName
--- from Instructors i 
--- Where NOT EXISTS 
---     (select 
+-- FROM Instructors i 
+-- WHERE NOT EXISTS 
+--     (SELECT 
 --         InstructorID
---     from Courses c 
---     where c.InstructorID=i.InstructorID
+--     FROM Courses c 
+--     WHERE c.InstructorID=i.InstructorID
 --     )
--- ORDER by LastName, FirstName;
+-- ORDER BY LastName, FirstName;
 
 /*  4   */
 -- SELECT 
@@ -150,29 +160,29 @@
 --     s.FirstName ASC;
 
 /*  5  */
--- select 
+-- SELECT 
 --     LastName,
 --     FirstName,
 --     AnnualSalary
--- from Instructors i 
--- where AnnualSalary in 
+-- FROM Instructors i 
+-- WHERE AnnualSalary in 
 --     (
---         select AnnualSalary 
---         from Instructors
---         GROUP by AnnualSalary
+--         SELECT AnnualSalary 
+--         FROM Instructors
+--         GROUP BY AnnualSalary
 --         having count(*) = 1
 --         )
--- order by LastName ASC, FirstName ASC;
+-- ORDER BY LastName ASC, FirstName ASC;
 
 /*  6   */
 -- WITH recentEnrollment AS(
--- select 
+-- SELECT 
 --     c.CourseID,
 --     Max(s.EnrollmentDate) [Recent Enrollment Date]
--- from Courses c
+-- FROM Courses c
 -- join StudentCourses sc on sc.CourseID=c.CourseID
 -- join Students s on s.StudentID=sc.StudentID
--- group by c.CourseID
+-- GROUP BY c.CourseID
 -- )
 
 -- SELECT c.CourseDescription, s.LastName, s.FirstName, re.[Recent Enrollment Date]
@@ -184,19 +194,19 @@
 -- ORDER BY c.CourseID;
 
 /*  7   */
-WITH TotalCourseUnits AS (
-        SELECT 
-            sc.StudentID,
-            SUM(c.CourseUnits) [TotalUnits]
-        FROM Courses c
-        join StudentCourses sc on c.CourseID=sc.CourseID
-        group by sc.StudentID
-        having SUM(c.CourseUnits)> 9
-)
+-- WITH TotalCourseUnits AS (
+--         SELECT 
+--             sc.StudentID,
+--             SUM(c.CourseUnits) [TotalUnits]
+--         FROM Courses c
+--         join StudentCourses sc on c.CourseID=sc.CourseID
+--         GROUP BY sc.StudentID
+--         having SUM(c.CourseUnits)> 9
+-- )
 
-select 
-    tc.StudentID, 
-    tc.TotalUnits,
-    (t.FullTimeCost+(t.PerUnitCost*tc.TotalUnits)) AS Tuition
-from TotalCourseUnits tc
-CROSS JOIN Tuition t;
+-- SELECT 
+--     tc.StudentID, 
+--     tc.TotalUnits,
+--     (t.FullTimeCost+(t.PerUnitCost*tc.TotalUnits)) AS Tuition
+-- FROM TotalCourseUnits tc
+-- CROSS JOIN Tuition t;
