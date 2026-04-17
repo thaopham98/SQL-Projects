@@ -1,4 +1,5 @@
-USE MyGuitarShop;
+-- USE MyGuitarShop;
+-- GO
 /* PART 1 */
 /* a) return the store with the most staffs */
 -- select TOP 1 store_id, store_name, count(*) as [Most Staffs]
