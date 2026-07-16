@@ -1,5 +1,5 @@
--- USE MurachCollege;
--- GO
+USE MurachCollege;
+GO
 
 -- SELECT * FROM Instructors;
 -- SELECT * FROM Students

@@ -13,11 +13,11 @@ SELECT * FROM Courses;
 -- select * from Departments WHERE DepartmentID=9;
 -- DELETE FROM Departments WHERE DepartmentID=13;
 
-/*   2   */
+-- /*   2   */
 -- INSERT INTO Instructors
 -- VALUES 
 --     ('Benedict', 'Susan', 'P', 0, CAST(GETDATE() AS DATE), 34000.00, 14),
-    -- ('Adams', NULL, 'F', 1, CAST(GETDATE() AS DATE), 66000.00, 14); -- the DepartmentID is 14 because mine only have 14 and not 9
+--     ('Adams', NULL, 'F', 1, CAST(GETDATE() AS DATE), 66000.00, 14); -- the DepartmentID is 14 because mine only have 14 and not 9
 
 
 /*   3   */

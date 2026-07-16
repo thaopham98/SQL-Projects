@@ -1,3 +1,10 @@
+USE AP;
+GO 
+
+SELECT name
+FROM sys.tables
+ORDER BY name;
+
 -- select count(*), SUM(InvoiceTotal)
 -- from Invoices
 
